@@ -285,13 +285,16 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                         visualDensity: VisualDensity.compact,
                       ),
 
-                      const Text('Individual', style: TextStyle(fontSize: 16)),
+                      const Text(
+                        'An Amaravian',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                 ),
 
-                // SHOW ONLY WHEN INDIVIDUAL SELECTED
-                if (_recipientType == 'Individual') ...[
+                // SHOW ONLY WHEN AN AMARAVIAN SELECTED
+                if (_recipientType == 'An Amaravian') ...[
                   const SizedBox(height: 8),
 
                   _buildDropdown('--Roll No--', _rollNumbers, _selectedRollNo, (
