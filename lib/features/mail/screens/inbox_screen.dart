@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/mock_mail_data.dart';
 import '../screens/mail_detail_screen.dart';
 import '../widgets/app_drawer.dart';
+import '../screens/compose_mail_screen.dart';
 
 class InboxScreen extends StatelessWidget {
   const InboxScreen({super.key});
@@ -129,13 +130,19 @@ class InboxScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ComposeEmailScreen()),
+          );
+        },
         backgroundColor: const Color(0xFFB71C1C),
         child: const Icon(Icons.edit, color: Colors.white),
       ),
       // bottomNavigationBar: _bottomNav(0),
     );
   }
+
   // Widget _filterChip(String label, bool isActive) {
   //   return Container(
   //     margin: const EdgeInsets.only(right: 8),

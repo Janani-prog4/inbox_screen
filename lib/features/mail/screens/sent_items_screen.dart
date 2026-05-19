@@ -4,6 +4,7 @@ import '../data/mock_mail_data.dart';
 import '../models/mail_message.dart';
 import '../screens/mail_detail_screen.dart';
 import '../widgets/app_drawer.dart';
+import '../screens/compose_mail_screen.dart';
 
 class SentItemsScreen extends StatefulWidget {
   const SentItemsScreen({super.key});
@@ -176,7 +177,12 @@ class _SentItemsScreenState extends State<SentItemsScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ComposeEmailScreen()),
+          );
+        },
         backgroundColor: Colors.white,
         elevation: 2,
         icon: const Icon(Icons.edit, color: Color(0xFFB71C1C)),
