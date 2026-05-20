@@ -32,40 +32,20 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFFCF9F8),
 
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFFB71C1C)),
-          onPressed: () => Navigator.pop(context),
-        ),
-
-        title: const Text(
-          'Compose',
-          style: TextStyle(
-            color: Color(0xFFB71C1C),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        backgroundColor: Colors.white,
-        elevation: 0,
-
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: Colors.grey.shade200, height: 1.0),
-        ),
-      ),
-
       body: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(height: 24),
                   // FROM
                   _buildInputRow(
                     'From',
+
                     const Text(
                       'Ruban S S Selvaraj',
+
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -76,10 +56,13 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                   // CC
                   _buildInputRow(
                     'Cc',
+
                     const TextField(
                       decoration: InputDecoration(
                         hintText: 'E-mail IDs by comma',
+
                         hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+
                         border: InputBorder.none,
                       ),
                     ),
@@ -88,10 +71,13 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                   // SUBJECT
                   _buildInputRow(
                     'Subject',
+
                     const TextField(
                       decoration: InputDecoration(
                         hintText: 'Subject',
+
                         hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+
                         border: InputBorder.none,
                       ),
                     ),
@@ -103,11 +89,15 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                   // BODY
                   const Padding(
                     padding: EdgeInsets.all(16.0),
+
                     child: TextField(
                       maxLines: null,
+
                       decoration: InputDecoration(
                         hintText: 'Compose email',
+
                         hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+
                         border: InputBorder.none,
                       ),
                     ),
@@ -121,8 +111,10 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
+
             child: Text(
               'Alumni Association Portal • Secure Messaging',
+
               style: TextStyle(color: Colors.grey, fontSize: 12),
             ),
           ),
@@ -143,11 +135,14 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+
         children: [
           SizedBox(
             width: 80,
+
             child: Text(
               label,
+
               style: const TextStyle(color: Colors.grey, fontSize: 16),
             ),
           ),
@@ -162,6 +157,8 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
   Widget _buildRecipientSection() {
     return Container(
+      width: double.infinity,
+
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 
       decoration: BoxDecoration(
@@ -170,11 +167,14 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           const SizedBox(
             width: 80,
+
             child: Text(
               'To',
+
               style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
           ),
@@ -182,6 +182,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
                 // ALL
                 InkWell(
@@ -195,7 +196,9 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                     children: [
                       Radio<String>(
                         value: 'All',
+
                         groupValue: _recipientType,
+
                         activeColor: const Color(0xFFB71C1C),
 
                         onChanged: (val) {
@@ -226,7 +229,9 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                     children: [
                       Radio<String>(
                         value: 'Batch',
+
                         groupValue: _recipientType,
+
                         activeColor: const Color(0xFFB71C1C),
 
                         onChanged: (val) {
@@ -243,14 +248,16 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                   ),
                 ),
 
-                // SHOW ONLY WHEN BATCH SELECTED
                 if (_recipientType == 'Batch') ...[
                   const SizedBox(height: 8),
 
                   _buildDropdown(
                     '--Batch Year--',
+
                     _batchYears,
+
                     _selectedBatch,
+
                     (val) {
                       setState(() {
                         _selectedBatch = val;
@@ -261,7 +268,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                   const SizedBox(height: 12),
                 ],
 
-                // INDIVIDUAL
+                // AN AMARAVIAN
                 InkWell(
                   onTap: () {
                     setState(() {
@@ -273,7 +280,9 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                     children: [
                       Radio<String>(
                         value: 'An Amaravian',
+
                         groupValue: _recipientType,
+
                         activeColor: const Color(0xFFB71C1C),
 
                         onChanged: (val) {
@@ -287,13 +296,13 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
                       const Text(
                         'An Amaravian',
+
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
                 ),
 
-                // SHOW ONLY WHEN AN AMARAVIAN SELECTED
                 if (_recipientType == 'An Amaravian') ...[
                   const SizedBox(height: 8),
 
@@ -328,6 +337,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
+
         borderRadius: BorderRadius.circular(8),
 
         border: Border.all(color: Colors.grey.shade300),
@@ -344,6 +354,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
           items: items.map((e) {
             return DropdownMenuItem(
               value: e,
+
               child: Text(e, style: const TextStyle(fontSize: 14)),
             );
           }).toList(),
@@ -372,6 +383,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
           const Text(
             'Attach File',
+
             style: TextStyle(color: Colors.grey, fontSize: 16),
           ),
         ],
@@ -389,7 +401,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {},
 
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Colors.grey),
@@ -403,6 +415,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
               child: const Text(
                 'Cancel',
+
                 style: TextStyle(color: Colors.black87, fontSize: 16),
               ),
             ),
@@ -426,6 +439,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
               child: const Text(
                 'Send',
+
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,

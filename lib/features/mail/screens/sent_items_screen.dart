@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../data/mock_mail_data.dart';
 import '../models/mail_message.dart';
 import '../screens/mail_detail_screen.dart';
-import '../widgets/app_drawer.dart';
-import '../screens/compose_mail_screen.dart';
 
 class SentItemsScreen extends StatefulWidget {
   const SentItemsScreen({super.key});
@@ -50,150 +48,176 @@ class _SentItemsScreenState extends State<SentItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          isSelectionMode ? '${selectedMailIds.length} Selected' : 'Sent',
-          style: const TextStyle(color: Color(0xFFB71C1C)),
-        ),
-        actions: [
-          if (isSelectionMode)
-            IconButton(
-              onPressed: deleteSelectedMails,
-              icon: const Icon(Icons.delete_outline),
-            ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-        ],
-      ),
-      drawer: const AppDrawer(),
-      body: Column(
-        children: [
+    return Column(
+      children: [
+        if (isSelectionMode)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+
             child: Row(
               children: [
-                Checkbox(
-                  value:
-                      mails.isNotEmpty &&
-                      selectedMailIds.length == mails.length,
-                  onChanged: toggleSelectAll,
-                  visualDensity: VisualDensity.compact,
+                Text(
+                  '${selectedMailIds.length} Selected',
+
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.refresh, size: 20),
-                ),
+
                 const Spacer(),
+
+                IconButton(
+                  onPressed: deleteSelectedMails,
+
+                  icon: const Icon(Icons.delete_outline),
+                ),
               ],
             ),
           ),
-          const Divider(height: 1),
-          Expanded(
-            child: ListView.separated(
-              itemCount: mails.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
-              itemBuilder: (context, index) {
-                final mail = mails[index];
 
-                final isSelected = selectedMailIds.contains(mail.id);
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-                return ListTile(
-                  selected: isSelected,
-                  selectedTileColor: Colors.red.shade50,
-                  leading: isSelectionMode
-                      ? Checkbox(
-                          value: isSelected,
-                          onChanged: (_) {
-                            toggleSelection(mail.id);
-                          },
-                        )
-                      : CircleAvatar(
-                          backgroundColor: const Color(0xFFE57373),
-                          child: const Icon(Icons.people, color: Colors.white),
-                        ),
-                  onLongPress: () {
-                    if (!isSelectionMode) {
-                      toggleSelection(mail.id);
-                    }
-                  },
-                  onTap: () {
-                    if (isSelectionMode) {
-                      toggleSelection(mail.id);
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              MailDetailScreen(mail: mail, isSent: true),
-                        ),
-                      );
-                    }
-                  },
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          mail.sender,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        mail.date,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  subtitle: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '${mail.subject} — ',
-                          style: const TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        TextSpan(text: mail.excerpt),
-                      ],
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 13),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ComposeEmailScreen()),
-          );
-        },
-        backgroundColor: Colors.white,
-        elevation: 2,
-        icon: const Icon(Icons.edit, color: Color(0xFFB71C1C)),
-        label: const Text(
-          'Compose',
-          style: TextStyle(
-            color: Color(0xFFB71C1C),
-            fontWeight: FontWeight.bold,
+          child: Row(
+            children: [
+              Checkbox(
+                value:
+                    mails.isNotEmpty && selectedMailIds.length == mails.length,
+
+                onChanged: toggleSelectAll,
+
+                visualDensity: VisualDensity.compact,
+              ),
+
+              IconButton(
+                onPressed: () {},
+
+                icon: const Icon(Icons.refresh, size: 20),
+              ),
+
+              const Spacer(),
+            ],
           ),
         ),
-      ),
+
+        const Divider(height: 1),
+
+        Expanded(
+          child: ListView.separated(
+            itemCount: mails.length,
+
+            separatorBuilder: (_, __) {
+              return const Divider(height: 1);
+            },
+
+            itemBuilder: (context, index) {
+              final mail = mails[index];
+
+              final isSelected = selectedMailIds.contains(mail.id);
+
+              return ListTile(
+                selected: isSelected,
+
+                selectedTileColor: Colors.red.shade50,
+
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
+                ),
+
+                leading: isSelectionMode
+                    ? Checkbox(
+                        value: isSelected,
+
+                        onChanged: (_) {
+                          toggleSelection(mail.id);
+                        },
+                      )
+                    : CircleAvatar(
+                        backgroundColor: const Color(0xFFE57373),
+
+                        child: const Icon(Icons.people, color: Colors.white),
+                      ),
+
+                onLongPress: () {
+                  if (!isSelectionMode) {
+                    toggleSelection(mail.id);
+                  }
+                },
+
+                onTap: () {
+                  if (isSelectionMode) {
+                    toggleSelection(mail.id);
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            MailDetailScreen(mail: mail, isSent: true),
+                      ),
+                    );
+                  }
+                },
+
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                  children: [
+                    Expanded(
+                      child: Text(
+                        mail.sender,
+
+                        maxLines: 1,
+
+                        overflow: TextOverflow.ellipsis,
+
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(width: 8),
+
+                    Text(
+                      mail.date,
+
+                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
+                ),
+
+                subtitle: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${mail.subject} — ',
+
+                        style: const TextStyle(
+                          color: Colors.black87,
+
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+
+                      TextSpan(text: mail.excerpt),
+                    ],
+                  ),
+
+                  maxLines: 1,
+
+                  overflow: TextOverflow.ellipsis,
+
+                  style: const TextStyle(fontSize: 13),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
