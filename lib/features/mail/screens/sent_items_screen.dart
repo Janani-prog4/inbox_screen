@@ -122,8 +122,8 @@ class _SentItemsScreenState extends State<SentItemsScreen> {
                 selectedTileColor: Colors.red.shade50,
 
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 4,
+                  horizontal: 20,
+                  vertical: 10,
                 ),
 
                 leading: isSelectionMode

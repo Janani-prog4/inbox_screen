@@ -26,8 +26,8 @@ class InboxScreen extends StatelessWidget {
 
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 4,
+                  horizontal: 20,
+                  vertical: 10,
                 ),
 
                 onTap: () {
@@ -124,31 +124,31 @@ class InboxScreen extends StatelessWidget {
     );
   }
 
-  static Widget _buildFilterChip(String label, bool isActive) {
-    return Container(
-      margin: const EdgeInsets.only(right: 8),
+  // static Widget _buildFilterChip(String label, bool isActive) {
+  //   return Container(
+  //     margin: const EdgeInsets.only(right: 8),
 
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-      decoration: BoxDecoration(
-        color: isActive ? const Color(0xFFB71C1C) : Colors.grey.shade200,
+  //     decoration: BoxDecoration(
+  //       color: isActive ? const Color(0xFFB71C1C) : Colors.grey.shade200,
 
-        borderRadius: BorderRadius.circular(20),
-      ),
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
 
-      child: Text(
-        label,
+  //     child: Text(
+  //       label,
 
-        style: TextStyle(
-          color: isActive ? Colors.white : Colors.black87,
+  //       style: TextStyle(
+  //         color: isActive ? Colors.white : Colors.black87,
 
-          fontWeight: FontWeight.bold,
+  //         fontWeight: FontWeight.bold,
 
-          fontSize: 12,
-        ),
-      ),
-    );
-  }
+  //         fontSize: 12,
+  //       ),
+  //     ),
+  //   );
+  // }
 }
   // Widget _filterChip(String label, bool isActive) {
   //   return Container(

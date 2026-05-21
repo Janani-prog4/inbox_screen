@@ -1,4 +1,8 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../../core/constants/app_colors.dart';
 
 class ComposeEmailScreen extends StatefulWidget {
   const ComposeEmailScreen({super.key});
@@ -12,6 +16,11 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
   String? _selectedBatch;
   String? _selectedRollNo;
+  final TextEditingController _fromController = TextEditingController(
+    text: 'ruban@gmail.com',
+  );
+
+  List<String> _selectedFiles = [];
 
   final List<String> _batchYears = ['2023', '2022', '2021', '2020'];
 
@@ -27,6 +36,86 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
     '18, Varthaman',
   ];
 
+  Future<void> _pickAttachment() async {
+    showModalBottomSheet(
+      context: context,
+
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo),
+
+                title: const Text('Gallery'),
+
+                onTap: () async {
+                  Navigator.pop(context);
+
+                  final ImagePicker picker = ImagePicker();
+
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+
+                  if (image != null) {
+                    setState(() {
+                      _selectedFiles.add(image.name);
+                    });
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${image.name} selected from gallery'),
+                      ),
+                    );
+                  }
+                },
+              ),
+
+              ListTile(
+                leading: const Icon(Icons.attach_file),
+
+                title: const Text('Files'),
+
+                onTap: () async {
+                  Navigator.pop(context);
+
+                  FilePickerResult? result = await FilePicker.platform
+                      .pickFiles(
+                        allowMultiple: true,
+
+                        type: FileType.custom,
+
+                        allowedExtensions: [
+                          'jpg',
+                          'jpeg',
+                          'png',
+                          'pdf',
+                          'doc',
+                          'docx',
+                        ],
+                      );
+
+                  if (result != null) {
+                    setState(() {
+                      for (var file in result.files) {
+                        _selectedFiles.add(file.name);
+                      }
+                    });
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Files selected')),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +128,24 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 24),
+
                   // FROM
                   _buildInputRow(
                     'From',
 
-                    const Text(
-                      'Ruban S S Selvaraj',
+                    TextField(
+                      controller: _fromController,
 
-                      style: TextStyle(fontSize: 16),
+                      readOnly: false,
+
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
 
@@ -61,7 +160,10 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                       decoration: InputDecoration(
                         hintText: 'E-mail IDs by comma',
 
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                        hintStyle: TextStyle(
+                          color: AppColors.greyText,
+                          fontSize: 16,
+                        ),
 
                         border: InputBorder.none,
                       ),
@@ -76,7 +178,10 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                       decoration: InputDecoration(
                         hintText: 'Subject',
 
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                        hintStyle: TextStyle(
+                          color: AppColors.greyText,
+                          fontSize: 16,
+                        ),
 
                         border: InputBorder.none,
                       ),
@@ -96,7 +201,10 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                       decoration: InputDecoration(
                         hintText: 'Compose email',
 
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                        hintStyle: TextStyle(
+                          color: AppColors.greyText,
+                          fontSize: 16,
+                        ),
 
                         border: InputBorder.none,
                       ),
@@ -111,12 +219,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
-
-            child: Text(
-              'Alumni Association Portal • Secure Messaging',
-
-              style: TextStyle(color: Colors.grey, fontSize: 12),
-            ),
+            child: SizedBox(),
           ),
         ],
       ),
@@ -143,7 +246,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
             child: Text(
               label,
 
-              style: const TextStyle(color: Colors.grey, fontSize: 16),
+              style: const TextStyle(color: AppColors.greyText, fontSize: 16),
             ),
           ),
 
@@ -175,7 +278,7 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
             child: Text(
               'To',
 
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+              style: TextStyle(color: AppColors.greyText, fontSize: 16),
             ),
           ),
 
@@ -184,7 +287,6 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: [
-                // ALL
                 InkWell(
                   onTap: () {
                     setState(() {
@@ -217,7 +319,6 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
 
                 const SizedBox(height: 12),
 
-                // BATCH
                 InkWell(
                   onTap: () {
                     setState(() {
@@ -268,7 +369,6 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
                   const SizedBox(height: 12),
                 ],
 
-                // AN AMARAVIAN
                 InkWell(
                   onTap: () {
                     setState(() {
@@ -368,26 +468,99 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
   // ATTACHMENT ROW
 
   Widget _buildAttachmentRow() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    return Column(
+      children: [
+        InkWell(
+          onTap: _pickAttachment,
 
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-      ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 
-      child: Row(
-        children: [
-          const Icon(Icons.attach_file, color: Colors.grey, size: 20),
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+            ),
 
-          const SizedBox(width: 8),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.attach_file,
+                  color: AppColors.greyText,
+                  size: 20,
+                ),
 
-          const Text(
-            'Attach File',
+                const SizedBox(width: 8),
 
-            style: TextStyle(color: Colors.grey, fontSize: 16),
+                const Text(
+                  'Attach File',
+
+                  style: TextStyle(color: AppColors.greyText, fontSize: 16),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+
+        if (_selectedFiles.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+
+            child: Column(
+              children: _selectedFiles.map((file) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
+
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.insert_drive_file,
+                        size: 18,
+                        color: Color(0xFFB71C1C),
+                      ),
+
+                      const SizedBox(width: 8),
+
+                      Expanded(
+                        child: Text(
+                          file,
+                          overflow: TextOverflow.ellipsis,
+
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedFiles.remove(file);
+                          });
+                        },
+
+                        child: const Icon(
+                          Icons.close,
+                          size: 18,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+      ],
     );
   }
 
@@ -401,7 +574,9 @@ class _ComposeEmailScreenState extends State<ComposeEmailScreen> {
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Navigator.pop(context);
+              },
 
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Colors.grey),

@@ -152,14 +152,20 @@ class MailDetailScreen extends StatelessWidget {
                   ),
                 ),
 
-                if (isSent)
-                  const Icon(Icons.keyboard_arrow_down, color: Colors.grey)
-                else
-                  const Icon(Icons.star_border, color: Colors.grey),
+                // if (isSent)
+                //   const Icon(Icons.keyboard_arrow_down, color: Colors.grey)
+                // else
+                //   const Icon(Icons.star_border, color: Colors.grey),
               ],
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 6),
+
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 52),
+            //   child: Divider(color: Colors.grey.shade300, thickness: 1),
+            // ),
+            const SizedBox(height: 20),
 
             Text(
               mail.excerpt,

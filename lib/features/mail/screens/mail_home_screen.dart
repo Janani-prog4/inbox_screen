@@ -76,7 +76,7 @@ class _MailHomeScreenState extends State<MailHomeScreen>
 
               labelColor: Colors.black,
 
-              unselectedLabelColor: Colors.grey,
+              unselectedLabelColor: Color(0xFF757575),
 
               indicatorColor: Color(0xFFB11225),
 
